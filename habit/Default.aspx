@@ -28,23 +28,38 @@
 
         $(".individualRectangle").click(function () {
             var clickedRectangle = this;
+
+            var time1 = 10;
+            var time2 = 10;
             $(".individualRectangle").each(function (index) {
        
-                if (clickedRectangle.className.slice(-1) == this.className.slice(-1) || clickedRectangle.className.slice(-2)[0] == this.className.slice(-2)[0] ) {
-                    $(this).css('background-color', '#7f5c89');
+                if (clickedRectangle.className.slice(-1) == this.className.slice(-1)) {
+                    var classnname = this.className.split(" ")[1];
+                    setTimeout(function () { AddBackgroundColor(classnname); }, time1);
+                    setTimeout(function () { resetBackgroundColor(classnname); }, 800);
+                    time1 += 20;
                 }
-                setTimeout(function () {                  
-                    resetAllBackgroundColor()
-                }, 5000);
+
+                if (clickedRectangle.className.slice(-2)[0] == this.className.slice(-2)[0]) {
+                    var classnname = this.className.split(" ")[1];
+                    setTimeout(function () { AddBackgroundColor(classnname); }, time2);
+                    setTimeout(function () { resetBackgroundColor(classnname); }, 800);
+                    time2 += 20;
+                }
+
+                
                 
             });
 
         });
 
-        function resetAllBackgroundColor() {
-            $(".individualRectangle").each(function (index) {
-                $(this).css('background-color', '#A68DAD');
-            });
+        function resetBackgroundColor(element) {
+            $("." + element).css('background-color', '#A68DAD');
+        }
+
+        function AddBackgroundColor(element) {
+
+            $("." + element).css('background-color', '#7f5c89');
         }
 
         /*
