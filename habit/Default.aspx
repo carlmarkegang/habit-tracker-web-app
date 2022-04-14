@@ -10,79 +10,115 @@
 
     <script>
         var currentdate = new Date();
+        var minutesPassedForDate = (currentdate.getHours() * 60) + currentdate.getMinutes();
+        var totalMinutesInADay = 1440;
+
 
         var RectanglesAmount = 96; // 24 * 4;
+        var RectanglesAdded = 0;
+        var RectanglesMinutes = 0;
+        var specialAbil = false;
+        function DrawRects() {
+            for (var i = 0; i < RectanglesAmount; i++) {
 
-        for (var i = 0; i < RectanglesAmount; i++) {
-            var randomint = randomIntFromInterval(1, 6)
-            $("#rectangles").append("<span class='individualRectangle individualRectangle" + i.toString() + "'> </span>");
+                // Add rectangle
+                RectanglesMinutes += 15;
+                $("#rectangles").append("<span class='individualRectangle individualRectangle" + i.toString() + " individualRectangleMinutes" + RectanglesMinutes + "'> </span>");
 
-            if (i.toString().slice(-1) == 9) {
-                $("#rectangles").append("<div> </div>");
+                // Is block avalible
+                if (minutesPassedForDate > RectanglesMinutes) {
+                    RectanglesAdded += 1;
+                    $(".individualRectangle" + i.toString()).css("background-color", "#A68DAD");
+                    $(".individualRectangle" + i.toString()).css("border", "solid 3px #78607e");
+
+                    AddOnClickEvent(".individualRectangle" + i.toString());
+
+                    if (specialAbil == true) {
+                        AddOnClickEventAsHover(".individualRectangle" + i.toString());
+                    } else {
+                        AddHover(".individualRectangle" + i.toString());
+                    }
+                    
+
+                    $(".individualRectangle" + i.toString()).css('cursor', 'pointer');
+                }
+
+                // Add linebreaks
+                if (i.toString().slice(-1) == 9) {                  
+                        $("#rectangles").append("<div> </div>");
+                }
+
+                // Add end block
+                if (i == 95) {
+                    $("#rectangles").append("<div class='RectanglesEndBlock'></div>");
+                }
             }
+            UpdateCompletedCount();
 
-            if (i == 95) {
-                $("#rectangles").append("<div class='RectanglesEndBlock'>96/96</div>");
-            }
+            
         }
 
-        $(".individualRectangle").click(function () {
-            var clickedRectangle = this;
 
-            var time1 = 10;
-            var time2 = 10;
-            $(".individualRectangle").each(function (index) {
-       
-                if (clickedRectangle.className.slice(-1) == this.className.slice(-1)) {
-                    var classnname = this.className.split(" ")[1];
-                    setTimeout(function () { AddBackgroundColor(classnname); }, time1);
-                    setTimeout(function () { resetBackgroundColor(classnname); }, 800);
-                    time1 += 20;
+        DrawRects();
+
+        function AddHover(element) {
+            $(element).hover(
+                function () {
+                    $(element).css('background-color', '#7f5c89');           
+                }, function () {
+                    $(element).css('background-color', '#A68DAD');
                 }
+            );
+        }
 
-                if (clickedRectangle.className.slice(-2)[0] == this.className.slice(-2)[0]) {
-                    var classnname = this.className.split(" ")[1];
-                    setTimeout(function () { AddBackgroundColor(classnname); }, time2);
-                    setTimeout(function () { resetBackgroundColor(classnname); }, 800);
-                    time2 += 20;
-                }
 
-                
-                
+        function AddOnClickEvent(element) {
+            $(element).click(function () {
+                var clickedRectangle = this;
+                $(clickedRectangle).unbind('mouseenter mouseleave');
+                $(clickedRectangle).unbind('click');
+                $(clickedRectangle).css('background-color', 'rgb(133 169 140)');
+                $(clickedRectangle).css('border', 'none');
+                UpdateCompletedCount();
             });
+        }
 
-        });
+        function AddOnClickEventAsHover(element) {
+            $(element).hover(function () {
+                var clickedRectangle = this;
+                $(clickedRectangle).unbind('mouseenter mouseleave');
+                $(clickedRectangle).unbind('click');
+                $(clickedRectangle).css('background-color', 'rgb(133 169 140)');
+                $(clickedRectangle).css('border', 'none');
+                UpdateCompletedCount();
+            });
+        }
+
 
         function resetBackgroundColor(element) {
             $("." + element).css('background-color', '#A68DAD');
         }
 
         function AddBackgroundColor(element) {
-
             $("." + element).css('background-color', '#7f5c89');
         }
 
-        /*
-        $(".individualRectangle").hover(function () {
-            $(".individualRectangle").each(function (index) {
-                $(this).css('border-radius','0%');
-            });
-        }, function () {
-            $(".individualRectangle").each(function (index) {
-               
-                $(this).css('border-radius', this.className.split(" ")[1].slice(-1) + "0%");
-            });
-        });
-        */
+        function UpdateCompletedCount() {
+            var clickedRectangles = 0;
+            for (var i = 0; i < RectanglesAmount; i++) {
 
-        function randomIntFromInterval(min, max) { // min and max included 
+                if ($(".individualRectangle" + i.toString()).css('border').includes('none')) {
+                    clickedRectangles += 1;
+                }
+            };
+            $(".RectanglesEndBlock").html(clickedRectangles + "/96");
+        }
+
+
+        function randomIntFromInterval(min, max) {
             return Math.floor(Math.random() * (max - min + 1) + min)
         }
 
     </script>
-    <style>
-        .individualRectangle:hover {
-            background-color:#b16cc5;
-        }
-    </style>
+
 </asp:Content>

@@ -29,19 +29,18 @@ textarea {
     display: inline-block;
     width: 40px;
     height: 40px;
-    background-color: #A68DAD;
-    border: solid 3px #78607e;
+    background-color: #dfc998;
+    border: solid 3px #ada187;
     margin: 0px 4px;
     transition: 0.2s;
-    cursor:pointer;
 }
 
 .RectanglesEndBlock {
     display: inline-block;
     width: 200px;
     height: 200px;
-    background-color: #A68DAD;
-    border: solid 3px #78607e;
+    background-color: #85a98c;
+    border: solid 3px #5f7174;
     margin: 0px 4px;
     transition: 0.2s;
     cursor: pointer;
@@ -50,6 +49,11 @@ textarea {
     font-size: 70px;
     position: absolute;
     text-align: center;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 body {
