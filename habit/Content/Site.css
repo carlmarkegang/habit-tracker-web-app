@@ -34,6 +34,7 @@ textarea {
     border: solid 3px #ada187;
     margin: 0px 4px;
     transition: 0.2s;
+    box-shadow: 0px 1px 2px #000000;
 }
 
 .RectanglesEndBlock {
@@ -47,7 +48,7 @@ textarea {
     cursor: pointer;
     line-height: 185px;
     color: #f0ece3;
-    font-size: 70px;
+    font-size: 60px;
     position: absolute;
     text-align: center;
     -webkit-touch-callout: none;
@@ -55,6 +56,7 @@ textarea {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    box-shadow: 0px 1px 2px #000000;
 }
 
 body {
