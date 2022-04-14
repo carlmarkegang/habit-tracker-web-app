@@ -43,7 +43,6 @@ function DrawRects() {
             $("#rectangles").append("<div class='RectanglesEndBlock'></div>");
         }
     }
-    UpdateCompletedCount();
 
 }
 
@@ -114,13 +113,45 @@ function UpdateAgainstServer() {
     $.ajax({
         type: "POST",
         url: "Server.aspx/UpdateAgainstServer",
-        data: JSON.stringify({ Clicked: clickedBlocks, date: currentdate }),
+        data: JSON.stringify({ Clicked: clickedBlocks, Date: currentdate }),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (msg) {
-            // Do something interesting with msg.d here.
+            // Do something
         }
     });
+}
+
+
+function GetFromServer() {
+
+    $.ajax({
+        type: "POST",
+        url: "Server.aspx/GetFromServer",
+        data: JSON.stringify({ Date: currentdate }),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (msg) {
+            DrawRects();    
+            SetAsClicked(msg.d.split(','));
+            UpdateCompletedCount();
+            setInterval(UpdateAgainstServer, 3000);
+
+        }
+    });
+}
+
+function SetAsClicked(clickedArray) {
+    var clickedRectangles = 0;
+   
+    for (var i = 0; i < RectanglesAmount; i++) {
+        
+        if (clickedArray.includes("individualRectangle" + i.toString())) {           
+            $(".individualRectangle" + i.toString()).click(); 
+        }
+    };
+
+    $(".RectanglesEndBlock").html(clickedRectangles + "/96");
 }
 
 
@@ -128,6 +159,4 @@ function randomIntFromInterval(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
-
-setInterval(UpdateAgainstServer, 3000);
-DrawRects();
+GetFromServer();
