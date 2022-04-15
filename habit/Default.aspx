@@ -8,6 +8,11 @@
         </div>
     </div>
 
+    <div>
+        <a href="ResetProgress.aspx" id="resetprogress">Reset</a>
+    </div>
+    
+
     <script src="Scripts/main.js"></script>
 
 </asp:Content>

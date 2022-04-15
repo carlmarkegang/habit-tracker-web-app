@@ -112,6 +112,7 @@ function UpdateAgainstServer() {
 
     $.ajax({
         type: "POST",
+        cache: false,
         url: "Server.aspx/UpdateAgainstServer",
         data: JSON.stringify({ Clicked: clickedBlocks, Date: currentdate }),
         contentType: "application/json; charset=utf-8",
@@ -127,6 +128,7 @@ function GetFromServer() {
 
     $.ajax({
         type: "POST",
+        cache: false,
         url: "Server.aspx/GetFromServer",
         data: JSON.stringify({ Date: currentdate }),
         contentType: "application/json; charset=utf-8",
