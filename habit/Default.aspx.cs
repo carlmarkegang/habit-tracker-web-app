@@ -11,8 +11,14 @@ namespace habit
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            Session["LoginTime"] = DateTime.Now;
-            Session["LoginUser"] = 1;
+            if (Session["LoginUser"] == null)
+            {
+                Response.Redirect("/Login");
+            }
+
         }
+
+
+
     }
 }

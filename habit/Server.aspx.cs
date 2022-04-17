@@ -22,11 +22,15 @@ namespace habit
         public static string GetFromServer(DateTime Date)
         {
             var LoginUser = HttpContext.Current.Session["LoginUser"];
-            
+            if (LoginUser == null)
+            {
+                return "not logged in ";
+            }
+
             var filePath = AppDomain.CurrentDomain.BaseDirectory + "files\\Habits\\" ;
             var FileName = LoginUser.ToString() + "_" + Date.ToString("yyyy-MM-dd") + ".xml";
 
-            if (!File.Exists(filePath))
+            if (!File.Exists(filePath + FileName))
             {
                 return "";
             }
@@ -51,6 +55,11 @@ namespace habit
         public static string UpdateAgainstServer(string[] Clicked, DateTime Date)
         {
             var LoginUser = HttpContext.Current.Session["LoginUser"];
+            if (LoginUser == null)
+            {
+                return "not logged in ";
+            }
+
             var SavePath = AppDomain.CurrentDomain.BaseDirectory + "files\\Habits\\";
             var FileName = LoginUser.ToString() + "_" + Date.ToString("yyyy-MM-dd") + ".xml";
 
