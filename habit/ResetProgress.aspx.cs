@@ -12,7 +12,7 @@ namespace habit
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            System.IO.DirectoryInfo di = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory + "files");
+            System.IO.DirectoryInfo di = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory + "files\\Habits");
 
             foreach (FileInfo file in di.GetFiles())
             {

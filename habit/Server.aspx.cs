@@ -15,12 +15,17 @@ namespace habit
         protected void Page_Load(object sender, EventArgs e)
         {
             Response.Redirect("/");
+
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public static string GetFromServer(DateTime Date)
         {
-            var filePath = AppDomain.CurrentDomain.BaseDirectory + "files\\1_" + Date.ToString("yyyy-MM-dd") + ".xml";
+            var LoginUser = HttpContext.Current.Session["LoginUser"];
+            
+            var filePath = AppDomain.CurrentDomain.BaseDirectory + "files\\Habits\\" ;
+            var FileName = LoginUser.ToString() + "_" + Date.ToString("yyyy-MM-dd") + ".xml";
+
             if (!File.Exists(filePath))
             {
                 return "";
@@ -28,7 +33,7 @@ namespace habit
             List<string> Returnlist = new List<string>();
             
             XmlDocument doc = new XmlDocument();
-            doc.Load(filePath);
+            doc.Load(filePath + FileName);
             XmlNodeList ClickedNodeList = doc.SelectNodes("User/Date/Clicked");
 
             foreach (XmlNode Clicked in ClickedNodeList)
@@ -42,10 +47,12 @@ namespace habit
         }
 
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public static string UpdateAgainstServer(string[] Clicked, DateTime Date)
         {
-            var SavePath = AppDomain.CurrentDomain.BaseDirectory + "files\\1_" + Date.ToString("yyyy-MM-dd") + ".xml";
+            var LoginUser = HttpContext.Current.Session["LoginUser"];
+            var SavePath = AppDomain.CurrentDomain.BaseDirectory + "files\\Habits\\";
+            var FileName = LoginUser.ToString() + "_" + Date.ToString("yyyy-MM-dd") + ".xml";
 
             XmlDocument doc = new XmlDocument();
             XmlElement User = doc.CreateElement("User");
@@ -64,11 +71,12 @@ namespace habit
                 DateNode.AppendChild(ClickedNode);
             }
 
-            doc.Save(SavePath);
+            doc.Save(SavePath + FileName);
 
 
-            return "ok";
+            return "Ok";
         }
+
 
 
     }
