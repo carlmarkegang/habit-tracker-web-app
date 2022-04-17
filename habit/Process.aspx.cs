@@ -13,46 +13,48 @@ namespace habit
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Request.QueryString["hash"] == "rehfgh5g43gset")
-            {
                 var res = ProcessUsers();
-            }
         }
 
 
         public string ProcessUsers()
         {
-
-            var filePath = AppDomain.CurrentDomain.BaseDirectory + "files\\Users\\";
-            var FileName = "Users.xml";
-
-            XmlDocument doc = new XmlDocument();
-            doc.Load(filePath + FileName);
-            XmlNode UsersNode = doc.SelectSingleNode("Users");
-
-            System.IO.DirectoryInfo di = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory + "files\\Users\\Process");
-
-            foreach (FileInfo file in di.GetFiles())
+            string LockFile = AppDomain.CurrentDomain.BaseDirectory + "files\\Users\\Process\\Lock\\Lock.txt";
+            if (!File.Exists(LockFile))
             {
-                if (file.Extension == ".txt")
+                File.AppendAllLines(LockFile, new[] { "Locked" });
+
+                var filePath = AppDomain.CurrentDomain.BaseDirectory + "files\\Users\\";
+                var FileName = "Users.xml";
+
+                XmlDocument doc = new XmlDocument();
+                doc.Load(filePath + FileName);
+                XmlNode UsersNode = doc.SelectSingleNode("Users");
+
+                System.IO.DirectoryInfo di = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory + "files\\Users\\Process");
+
+                foreach (FileInfo file in di.GetFiles())
                 {
-                    int id = GetHighestUserId(doc);
-                    int NewId = id + 1;
-                    var text = System.IO.File.ReadAllText(file.FullName);
+                    if (file.Extension == ".txt")
+                    {
+                        int id = GetHighestUserId(doc);
+                        int NewId = id + 1;
+                        var text = System.IO.File.ReadAllText(file.FullName);
 
-                    XmlElement CreatedUser = doc.CreateElement("User");
-                    CreatedUser.InnerText = text;
-                    CreatedUser.SetAttribute("id", NewId.ToString());
-                    UsersNode.AppendChild(CreatedUser);
+                        XmlElement CreatedUser = doc.CreateElement("User");
+                        CreatedUser.InnerText = text;
+                        CreatedUser.SetAttribute("id", NewId.ToString());
+                        UsersNode.AppendChild(CreatedUser);
 
-                    File.Move(file.FullName, AppDomain.CurrentDomain.BaseDirectory + "files\\Users\\Process\\Done\\" + file.Name);
+                        File.Move(file.FullName, AppDomain.CurrentDomain.BaseDirectory + "files\\Users\\Process\\Done\\" + file.Name);
+                        File.Delete(LockFile);
+                    }
 
                 }
 
+
+                doc.Save(filePath + FileName);
             }
-
-
-            doc.Save(filePath + FileName);
             return "Ok";
         }
 

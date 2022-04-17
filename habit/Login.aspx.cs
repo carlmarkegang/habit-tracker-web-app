@@ -14,10 +14,19 @@ namespace habit
         protected void Page_Load(object sender, EventArgs e)
         {
 
-            var UserId = GetUser("User1");
-            Session["LoginUser"] = UserId;
+            if (IsPostBack) { 
+            var UserId = GetUser(Request.Form["username"]);
+                if(UserId == "")
+                {
+                    error.InnerText = "Failed";
+                }
+                else
+                {
+                    Session["LoginUser"] = UserId;
+                    Response.Redirect("/");
+                }
 
-            Response.Redirect("/");
+            }
         }
 
 
@@ -33,7 +42,7 @@ namespace habit
 
             foreach (XmlNode user in UserNode)
             {
-                if (user.InnerText == username)
+                if (user.InnerText.ToLower() == username.ToLower())
                 {
                     return user.Attributes["id"].Value;
                 }

@@ -1,15 +1,13 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="habit.Login" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/Site.Master" CodeBehind="Login.aspx.cs" Inherits="habit.Login" %>
 
-<!DOCTYPE html>
+<asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-    <title></title>
-</head>
-<body>
-    <form id="form1" runat="server">
+
         <div>
+             <h1>Login</h1>
+            <h2 runat="server" id="error" style="color:red;"></h2>
+            <input type="text" name="username" />
+            <input type="submit" />
         </div>
-    </form>
-</body>
-</html>
+
+</asp:Content>
