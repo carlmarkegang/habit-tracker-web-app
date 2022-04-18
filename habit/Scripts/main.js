@@ -1,14 +1,31 @@
 ﻿var currentdate = new Date();
+var selectedDate = new Date();
 var minutesPassedForDate = (currentdate.getHours() * 60) + currentdate.getMinutes();
 var totalMinutesInADay = 1440;
 
 
 var RectanglesAmount = 96; // 24 * 4;
 var RectanglesAdded = 0;
-var RectanglesMinutes = 0;
-var specialAbil = false;
+
+var specialAbil = true;
 
 function DrawRects() {
+    var RectanglesMinutes = 0;
+    $("#rectangles").html("");
+
+
+    // Depending if its today, a date in the future or a date in the passed the blocks should be avalible or disabled
+    var currentDateDrawRect = new Date(currentdate).toLocaleDateString('en-US', { day: '2-digit', month: '2-digit', year: 'numeric', });
+    var selectedDateDrawRect = new Date(selectedDate).toLocaleDateString('en-US', { day: '2-digit', month: '2-digit', year: 'numeric', });
+    if (currentDateDrawRect == selectedDateDrawRect) {
+        minutesPassedForDate = (currentdate.getHours() * 60) + currentdate.getMinutes();
+    } else if (currentDateDrawRect > selectedDateDrawRect) {
+        minutesPassedForDate = 1440;
+    } else if (currentDateDrawRect < selectedDateDrawRect) {
+        minutesPassedForDate = 0;
+    }
+
+    // Draw the view
     for (var i = 0; i < RectanglesAmount; i++) {
 
         // Add rectangle
@@ -16,7 +33,7 @@ function DrawRects() {
         $("#rectangles").append("<span class='individualRectangle individualRectangle" + i.toString() + " individualRectangleMinutes" + RectanglesMinutes + "'> </span>");
 
         // Is block avalible
-        if (minutesPassedForDate > RectanglesMinutes) {
+        if (minutesPassedForDate >= RectanglesMinutes) {
             RectanglesAdded += 1;
             $(".individualRectangle" + i.toString()).css("background-color", "#A68DAD");
             $(".individualRectangle" + i.toString()).css("border", "solid 3px #78607e");
@@ -98,10 +115,17 @@ function UpdateCompletedCount() {
     };
 
     $(".RectanglesEndBlock").html(clickedRectangles + "/96");
+
+    if (clickedRectangles == "96") {
+        $(".RectanglesEndBlock").css("background-color", "#85a98c");
+    } else {
+        $(".RectanglesEndBlock").css("background-color", "#a68dad");
+    }
 }
 
 
 function UpdateAgainstServer() {
+    selectedDate = new Date($("#datepicker").val())
     var clickedBlocks = [];
 
     for (var i = 0; i < RectanglesAmount; i++) {
@@ -114,7 +138,7 @@ function UpdateAgainstServer() {
         type: "POST",
         cache: false,
         url: "Server.aspx/UpdateAgainstServer",
-        data: JSON.stringify({ Clicked: clickedBlocks, Date: currentdate }),
+        data: JSON.stringify({ Clicked: clickedBlocks, Date: selectedDate }),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (msg) {
@@ -125,12 +149,13 @@ function UpdateAgainstServer() {
 
 
 function GetFromServer() {
+    selectedDate = new Date($("#datepicker").val())
 
     $.ajax({
         type: "POST",
         cache: false,
         url: "Server.aspx/GetFromServer",
-        data: JSON.stringify({ Date: currentdate }),
+        data: JSON.stringify({ Date: selectedDate }),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (msg) {
@@ -154,11 +179,20 @@ function SetAsClicked(clickedArray) {
     };
 
     $(".RectanglesEndBlock").html(clickedRectangles + "/96");
-}
+
+ }
 
 
 function randomIntFromInterval(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min)
 }
+
+var DateFormatted = new Date(currentdate).toLocaleDateString('en-US', {day: '2-digit',month: '2-digit',year: 'numeric',});
+$("#datepicker").val(DateFormatted);
+
+
+$("#datepicker").change(function () {
+    GetFromServer();
+});
 
 GetFromServer();

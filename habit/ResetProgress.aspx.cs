@@ -18,9 +18,12 @@ namespace habit
             {
                 if (file.Extension == ".xml")
                 {
-                    file.Delete();
+                    if (file.Name.StartsWith(Session["LoginUser"] + "_"))
+                    {
+                        file.Delete();
+                    }
                 }
-                
+
             }
 
 

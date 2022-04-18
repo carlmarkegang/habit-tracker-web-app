@@ -4,6 +4,9 @@
 
     <div>
         <h1>Habits</h1>
+        <h4>
+            <input type="text" id="datepicker" style="cursor:pointer;">
+        </h4>
         <div id="rectangles">
         </div>
     </div>
@@ -11,8 +14,13 @@
     <div>
         <a href="ResetProgress.aspx" id="resetprogress">Reset</a>
     </div>
-    
+
 
     <script src="Scripts/main.js"></script>
+    <script>
+        $(function () {
+            $("#datepicker").datepicker();
+        });
+    </script>
 
 </asp:Content>

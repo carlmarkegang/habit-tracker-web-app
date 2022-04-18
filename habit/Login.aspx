@@ -7,7 +7,7 @@
              <h1>Login</h1>
             <h2 runat="server" id="error" style="color:red;"></h2>
             <input type="text" name="username" />
-            <input type="submit" />
+            <input type="submit" value="Login" />
         </div>
 
 </asp:Content>
