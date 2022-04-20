@@ -49,6 +49,7 @@ function DrawRects() {
             // Inactive
             $(".individualRectangle" + i.toString()).css("background-color", "#dfc998");
             $(".individualRectangle" + i.toString()).css("border", "solid 3px #ada187");
+            $(".individualRectangle" + i.toString()).css("box-shadow", "0px 0px 0px");
         }
 
         // Add linebreaks
@@ -212,7 +213,22 @@ $("#datepicker").change(function () {
     GetFromServer();
 });
 
+$(function () {
+    $("#datepicker").datepicker();
+});
 
+$(function () {
+    $(document).tooltip();
+});
+
+$("#resetprogress").click(function () {
+    var text = "Are you sure you want to reset your progress?";
+    if (confirm(text) == true) {
+        window.location.href = "/ResetProgress.aspx";
+    } else {
+
+    }
+});
 
 
 
