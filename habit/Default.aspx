@@ -5,7 +5,13 @@
     <div>
         <h1>Habits</h1>
         <h4>
-            <input type="text" id="datepicker" style="cursor:pointer;">
+            <input type="text" id="datepicker" style="cursor: pointer;">
+            
+            <label class="switch">
+                <input type="checkbox" id="specialAbility"> 
+                <span class="slider round"></span>
+            </label>
+            Autoclick
         </h4>
         <div id="rectangles">
         </div>

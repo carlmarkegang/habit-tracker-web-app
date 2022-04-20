@@ -7,7 +7,7 @@ var totalMinutesInADay = 1440;
 var RectanglesAmount = 96; // 24 * 4;
 var RectanglesAdded = 0;
 
-var specialAbil = true;
+var specialAbil = false;
 
 function DrawRects() {
     var RectanglesMinutes = 0;
@@ -35,19 +35,20 @@ function DrawRects() {
         // Is block avalible
         if (minutesPassedForDate >= RectanglesMinutes) {
             RectanglesAdded += 1;
-            $(".individualRectangle" + i.toString()).css("background-color", "#A68DAD");
-            $(".individualRectangle" + i.toString()).css("border", "solid 3px #78607e");
+
 
             AddOnClickEvent(".individualRectangle" + i.toString());
 
-            if (specialAbil == true) {
-                AddOnClickEventAsHover(".individualRectangle" + i.toString());
-            } else {
-                AddHover(".individualRectangle" + i.toString());
-            }
+            AddOnClickEventAsHover(".individualRectangle" + i.toString());
+            //AddHover(".individualRectangle" + i.toString());
+
 
 
             $(".individualRectangle" + i.toString()).css('cursor', 'pointer');
+        } else {
+            // Inactive
+            $(".individualRectangle" + i.toString()).css("background-color", "#dfc998");
+            $(".individualRectangle" + i.toString()).css("border", "solid 3px #ada187");
         }
 
         // Add linebreaks
@@ -77,24 +78,28 @@ function AddHover(element) {
 
 function AddOnClickEvent(element) {
     $(element).click(function () {
-        var clickedRectangle = this;
-        $(clickedRectangle).unbind('mouseenter mouseleave');
-        $(clickedRectangle).unbind('click');
-        $(clickedRectangle).css('background-color', 'rgb(133 169 140)');
-        $(clickedRectangle).css('border', 'none');
-        UpdateCompletedCount();
+        if (specialAbil == false) {
+            var clickedRectangle = this;
+            $(clickedRectangle).unbind('mouseenter mouseleave');
+            $(clickedRectangle).unbind('click');
+            $(clickedRectangle).css('background-color', 'rgb(133 169 140)');
+            $(clickedRectangle).css('border', 'none');
+            UpdateCompletedCount();
+        }
     });
 }
 
 
 function AddOnClickEventAsHover(element) {
     $(element).hover(function () {
-        var clickedRectangle = this;
-        $(clickedRectangle).unbind('mouseenter mouseleave');
-        $(clickedRectangle).unbind('click');
-        $(clickedRectangle).css('background-color', 'rgb(133 169 140)');
-        $(clickedRectangle).css('border', 'none');
-        UpdateCompletedCount();
+        if (specialAbil == true) {
+            var clickedRectangle = this;
+            $(clickedRectangle).unbind('mouseenter mouseleave');
+            $(clickedRectangle).unbind('click');
+            $(clickedRectangle).css('background-color', 'rgb(133 169 140)');
+            $(clickedRectangle).css('border', 'none');
+            UpdateCompletedCount();
+        }
     });
 }
 
@@ -159,10 +164,22 @@ function GetFromServer() {
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (msg) {
-            DrawRects();    
+            $("label").click(function () {
+
+                if ($("#specialAbility").is(':checked')) {
+                    specialAbil = true;
+                } else {
+                    specialAbil = false;
+                }
+
+            });
+
+            DrawRects();
             SetAsClicked(msg.d.split(','));
             UpdateCompletedCount();
             setInterval(UpdateAgainstServer, 3000);
+
+
 
         }
     });
@@ -170,29 +187,34 @@ function GetFromServer() {
 
 function SetAsClicked(clickedArray) {
     var clickedRectangles = 0;
-   
+
     for (var i = 0; i < RectanglesAmount; i++) {
-        
-        if (clickedArray.includes("individualRectangle" + i.toString())) {           
-            $(".individualRectangle" + i.toString()).click(); 
+
+        if (clickedArray.includes("individualRectangle" + i.toString())) {
+            $(".individualRectangle" + i.toString()).click();
         }
     };
 
     $(".RectanglesEndBlock").html(clickedRectangles + "/96");
 
- }
+}
 
 
 function randomIntFromInterval(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
-var DateFormatted = new Date(currentdate).toLocaleDateString('en-US', {day: '2-digit',month: '2-digit',year: 'numeric',});
+var DateFormatted = new Date(currentdate).toLocaleDateString('en-US', { day: '2-digit', month: '2-digit', year: 'numeric', });
 $("#datepicker").val(DateFormatted);
 
 
 $("#datepicker").change(function () {
     GetFromServer();
 });
+
+
+
+
+
 
 GetFromServer();
