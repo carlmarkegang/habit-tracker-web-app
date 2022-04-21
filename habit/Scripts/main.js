@@ -2,6 +2,7 @@
 var selectedDate = new Date();
 var minutesPassedForDate = (currentdate.getHours() * 60) + currentdate.getMinutes();
 var totalMinutesInADay = 1440;
+var startdate = new Date();
 
 
 var RectanglesAmount = 96; // 24 * 4;
@@ -33,20 +34,14 @@ function DrawRects() {
         $("#rectangles").append("<span class='individualRectangle individualRectangle" + i.toString() + " individualRectangleMinutes" + RectanglesMinutes + "'> </span>");
 
         // Is block avalible
-        if (minutesPassedForDate >= RectanglesMinutes) {
+        if (minutesPassedForDate >= RectanglesMinutes && selectedDate >= startdate) {
             RectanglesAdded += 1;
-
-
             AddOnClickEvent(".individualRectangle" + i.toString());
-
             AddOnClickEventAsHover(".individualRectangle" + i.toString());
-            //AddHover(".individualRectangle" + i.toString());
-
-
-
             $(".individualRectangle" + i.toString()).css('cursor', 'pointer');
+
         } else {
-            // Inactive
+            // Inactive rectangle
             $(".individualRectangle" + i.toString()).css("background-color", "#dfc998");
             $(".individualRectangle" + i.toString()).css("border", "solid 3px #ada187");
             $(".individualRectangle" + i.toString()).css("box-shadow", "0px 0px 0px");
@@ -175,13 +170,67 @@ function GetFromServer() {
 
             });
 
+            GetStartDate();
+        }
+    });
+}
+
+
+
+function UpdateStartDate() {
+    debugger;
+    selectedDate = new Date($("#datepicker").val())
+
+    $.ajax({
+        type: "POST",
+        cache: false,
+        url: "Server.aspx/UpdateStartDate",
+        data: JSON.stringify({ Date: selectedDate }),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (msg) {
+            location.reload();
+        }
+    });
+}
+
+function GetStartDate() {
+    selectedDate = new Date($("#datepicker").val());
+    $.ajax({
+        type: "POST",
+        cache: false,
+        url: "Server.aspx/GetStartDate",
+        data: "",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (msg) {
+            debugger;
+            if (msg.d == "FileNotCreated") {
+                $("#rectangles").css("display", "none");
+                $("#rectangles_submenu").css("display", "none");
+                $("#startdatetext").css("display", "block");
+                $("#startdatetext").css("padding", "10px 0px");
+                $("#datepicker").css("background-color", "#ffffff");
+                $("#datepicker").css("border", "2px solid #3c3c3c");
+                $("#startdatesubmit").css("display", "inline-block");
+
+                $("#startdatesubmit").click(function () {
+                    UpdateStartDate();
+                });
+            }
+
+            startdate = new Date(msg.d);
+
+            $(function () {
+                $("#datepicker").datepicker({ minDate: startdate });
+            });
+
+
+
             DrawRects();
             SetAsClicked(msg.d.split(','));
             UpdateCompletedCount();
             setInterval(UpdateAgainstServer, 3000);
-
-
-
         }
     });
 }
@@ -213,9 +262,6 @@ $("#datepicker").change(function () {
     GetFromServer();
 });
 
-$(function () {
-    $("#datepicker").datepicker();
-});
 
 $(function () {
     $(document).tooltip();

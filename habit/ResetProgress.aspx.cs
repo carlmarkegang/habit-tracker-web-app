@@ -26,6 +26,20 @@ namespace habit
 
             }
 
+            System.IO.DirectoryInfo di2 = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory + "files\\Users\\User");
+
+            foreach (FileInfo file in di2.GetFiles())
+            {
+                if (file.Extension == ".xml")
+                {
+                    if (file.Name == Session["LoginUser"] + ".xml")
+                    {
+                        file.Delete();
+                    }
+                }
+
+            }
+
 
             Response.Redirect("/");
         }

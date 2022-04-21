@@ -50,6 +50,66 @@ namespace habit
             return returnstring;
         }
 
+        [WebMethod(EnableSession = true)]
+        public static string GetStartDate()
+        {
+            var LoginUser = HttpContext.Current.Session["LoginUser"];
+            if (LoginUser == null)
+            {
+                return "not logged in";
+            }
+
+            var filePath = AppDomain.CurrentDomain.BaseDirectory + "files\\Users\\User\\";
+            var FileName = LoginUser.ToString() + ".xml";
+
+            if (!File.Exists(filePath + FileName))
+            {
+                return "FileNotCreated";
+            }
+            List<string> Returnlist = new List<string>();
+
+            XmlDocument doc = new XmlDocument();
+            doc.Load(filePath + FileName);
+            XmlNodeList UserNodeList = doc.SelectNodes("User/User");
+
+            foreach (XmlNode User in UserNodeList)
+            {
+                    return User.Attributes["StartDate"].Value;
+            }
+         
+
+            return "";
+        }
+
+        [WebMethod(EnableSession = true)]
+        public static string UpdateStartDate(DateTime Date)
+        {
+            var LoginUser = HttpContext.Current.Session["LoginUser"];
+            if (LoginUser == null)
+            {
+                return "not logged in ";
+            }
+
+            var SavePath = AppDomain.CurrentDomain.BaseDirectory + "files\\Users\\User\\";
+            var FileName = LoginUser.ToString() + ".xml";
+
+            XmlDocument doc = new XmlDocument();
+            XmlElement User = doc.CreateElement("User");
+            doc.AppendChild(User);
+
+            XmlElement UserNode = doc.CreateElement("User");
+            UserNode.InnerText = "";
+            UserNode.SetAttribute("StartDate", Date.ToString());
+            User.AppendChild(UserNode);
+
+            doc.Save(SavePath + FileName);
+
+
+            return "Ok";
+        }
+
+
+
 
         [WebMethod(EnableSession = true)]
         public static string UpdateAgainstServer(string[] Clicked, DateTime Date)
