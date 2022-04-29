@@ -9,29 +9,31 @@ using System.Xml;
 
 namespace habit
 {
-    public partial class Login : System.Web.UI.Page
+    public partial class CreateUser : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
 
             if (IsPostBack)
             {
-                var UserId = GetUser(Request.Form["username"], Request.Form["password"]);
+                var UserId = GetUser(Request.Form["username"]);
                 if (UserId == "")
                 {
-                    error.InnerText = "Failed";
+                    string UserFile = AppDomain.CurrentDomain.BaseDirectory + "files\\Users\\Process\\" + Request.Form["username"] + ".txt";
+                    File.AppendAllLines(UserFile, new[] { Request.Form["username"] + Environment.NewLine + Request.Form["password"] });
+                    Response.Redirect("/process");
                 }
                 else
                 {
-                    Session["LoginUser"] = UserId;
-                    Response.Redirect("/");
+                    error.InnerText = "Username already taken";
                 }
 
             }
+
         }
 
 
-        public string GetUser(string username, string password)
+        public string GetUser(string username)
         {
 
             var filePath = AppDomain.CurrentDomain.BaseDirectory + "files\\Users\\";
@@ -45,10 +47,7 @@ namespace habit
             {
                 if (user.InnerText.ToLower() == username.ToLower())
                 {
-                    if (user.Attributes["password"].Value == password)
-                    {
-                        return user.Attributes["id"].Value;
-                    }
+                    return user.Attributes["id"].Value;
                 }
             }
 

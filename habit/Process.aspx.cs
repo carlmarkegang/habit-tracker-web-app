@@ -13,7 +13,8 @@ namespace habit
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-                var res = ProcessUsers();
+            var res = ProcessUsers();
+            Response.Redirect("/");
         }
 
 
@@ -40,9 +41,10 @@ namespace habit
                         int id = GetHighestUserId(doc);
                         int NewId = id + 1;
                         var text = System.IO.File.ReadAllText(file.FullName);
-
+                        var textSplit = text.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
                         XmlElement CreatedUser = doc.CreateElement("User");
-                        CreatedUser.InnerText = text;
+                        CreatedUser.InnerText = textSplit[0];
+                        CreatedUser.SetAttribute("password", textSplit[1]);
                         CreatedUser.SetAttribute("id", NewId.ToString());
                         UsersNode.AppendChild(CreatedUser);
 
