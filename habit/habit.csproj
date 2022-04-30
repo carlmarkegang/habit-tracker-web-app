@@ -115,6 +115,13 @@
     <Content Include="Default.aspx" />
     <Content Include="Example.aspx" />
     <Content Include="favicon.ico" />
+    <Content Include="files\Habits\1_2022-04-29.xml" />
+    <Content Include="files\Habits\1_2022-04-30.xml" />
+    <Content Include="files\Habits\2_2022-04-30.xml" />
+    <Content Include="files\Users\Process\Done\user2.txt" />
+    <Content Include="files\Users\Users.xml" />
+    <Content Include="files\Users\User\1.xml" />
+    <Content Include="files\Users\User\2.xml" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -230,6 +237,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="files\Users\Process\Lock\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -1,4 +1,4 @@
 <Users>
   <User id="1" password="password">User1</User>
-  <User password="password2" id="2">user2</User>
+  <User id="2" password="password2">user2</User>
 </Users>
