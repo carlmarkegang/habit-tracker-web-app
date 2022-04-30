@@ -6,11 +6,12 @@
     <div>
         <h1>Login</h1>
         <h2 runat="server" id="error" style="color: red;"></h2>
-        <input type="text" name="username" placeholder="username" /><br />
-        <input type="password" name="password" placeholder="password" /><br />
+        <input type="text" name="username" placeholder="Username" /><br />
+        <input type="password" name="password" placeholder="Password" /><br />
         <input type="submit" value="Login" />
         <br /><br />
-        <a href="/CreateUser.aspx">Create new user</a>
+        <p><a href="/CreateUser.aspx"><strong>Create new user</strong></a></p>
+        <p><a href="/Example.aspx"><strong>See example</strong></a></p>
     </div>
 
 </asp:Content>

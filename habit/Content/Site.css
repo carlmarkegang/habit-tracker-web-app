@@ -13,6 +13,17 @@ h1 {
     font-weight: bold;
 }
 
+#rectangles_wrap {
+    width: 70%;
+    float: left;
+}
+
+#rectangles_description_wrap {
+    width: 30%;
+    float: left;
+    padding-top: 80px;
+}
+
 #loadingBlock {
     position: absolute;
     top: 0px;
@@ -34,7 +45,7 @@ textarea {
 #rectangles {
     display: inline-block;
     float: left;
-    width: 50%;
+    width: 100%;
 }
 
 .individualRectangle {
@@ -73,6 +84,10 @@ textarea {
     user-select: none;
     box-shadow: 0px 1px 2px #000000;
 }
+
+    .RectanglesEndBlock:hover {
+        background-color: #7f5c89 !important;
+    }
 
 a#resetprogress {
     font-size: 20px;
@@ -148,15 +163,29 @@ input:checked + .slider:before {
     }
 
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 1200px) {
+
+    #rectangles_wrap {
+        width: 45%;
+    }
+
+
+}
+
+
+@media screen and (max-width: 768px) {
 
     .body-content {
         padding: 0;
     }
 
-    #rectangles {
-        display: inline-block;
-        float: left;
+
+    #rectangles_wrap {
         width: 100%;
     }
+
+    #rectangles_description_wrap {
+        width: 100%;
+    }
+
 }

@@ -12,6 +12,7 @@ var specialAbil = false;
 
 function DrawRects() {
     var RectanglesMinutes = 0;
+    RectanglesAdded = 0;
     $("#rectangles").html("");
 
 
@@ -54,7 +55,7 @@ function DrawRects() {
 
         // Add end block
         if (i == 95) {
-            $("#rectangles").append("<div class='RectanglesEndBlock'></div>");
+            $("#rectangles").append("<div class='RectanglesEndBlock' title='Click here to complete all available boxes'></div>");
         }
     }
 
@@ -184,7 +185,7 @@ function GetFromServer() {
 
             GetStartDate();
             setTimeout(function () { SetAsClicked(msg.d.split(',')); }, 200);
-            
+
         }
     });
 }
@@ -249,11 +250,8 @@ function GetStartDate() {
             });
 
 
-
-            DrawRects();          
+            DrawRects();
             UpdateCompletedCount();
-           
-
 
         }
     });
@@ -270,7 +268,7 @@ function SetAsClicked(clickedArray) {
         }
     };
 
-    $(".RectanglesEndBlock").html(clickedRectangles + "/96");
+    $(".RectanglesEndBlock").html(clickedRectangles + "/" + RectanglesAdded);
 
     $("#rectangles").fadeIn();
     $("#rectangles_submenu").fadeIn();
@@ -290,8 +288,8 @@ $("#datepicker").change(function () {
     $("#rectangles").css("display", "none");
     $("#rectangles_submenu").css("display", "none");
     setTimeout(function () { GetFromServer(); }, 200);
-   
-    
+
+
 });
 
 
