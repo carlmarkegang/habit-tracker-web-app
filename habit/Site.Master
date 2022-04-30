@@ -12,11 +12,12 @@
         <%: Scripts.Render("~/bundles/modernizr") %>
     </asp:PlaceHolder>
 
+    <link rel="stylesheet" href="/Content/jquery-ui.css">
     <webopt:BundleReference runat="server" Path="~/Content/css" />
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Plus+Jakarta+Sans">
 
-    <link rel="stylesheet" href="/Content/jquery-ui.css">
+    
 </head>
 <body>
     <form runat="server">

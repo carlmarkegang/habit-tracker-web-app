@@ -58,6 +58,18 @@ function DrawRects() {
         }
     }
 
+
+
+    $(".RectanglesEndBlock").click(function () {
+        var time1 = 0;
+        $(".individualRectangle").each(function (index) {
+            var classnname = this.className.split(" ")[1];
+            setTimeout(function () { $("." + classnname).click(); }, time1);
+            time1 += 20;
+
+        });
+    });
+
 }
 
 
@@ -171,6 +183,8 @@ function GetFromServer() {
             });
 
             GetStartDate();
+            setTimeout(function () { SetAsClicked(msg.d.split(',')); }, 200);
+            
         }
     });
 }
@@ -178,7 +192,6 @@ function GetFromServer() {
 
 
 function UpdateStartDate() {
-    debugger;
     selectedDate = new Date($("#datepicker").val())
 
     $.ajax({
@@ -204,7 +217,6 @@ function GetStartDate() {
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (msg) {
-            debugger;
             if (msg.d == "FileNotCreated") {
                 $("#rectangles").css("display", "none");
                 $("#rectangles_submenu").css("display", "none");
@@ -222,15 +234,27 @@ function GetStartDate() {
             startdate = new Date(msg.d);
 
             $(function () {
-                $("#datepicker").datepicker({ minDate: startdate });
+                $("#datepicker").datepicker({
+                    minDate: startdate,
+                    changeMonth: true,
+                    changeYear: true,
+                    beforeShowDay: function (d) {
+                        var a = new Date();
+                        var b = new Date();
+                        a.setDate(a.getDate() - 5);
+                        b.setDate(b.getDate() + 5);
+                        return [true, a <= d && d <= b ? ".highlightDate" : ""];
+                    }
+                });
             });
 
 
 
-            DrawRects();
-            SetAsClicked(msg.d.split(','));
+            DrawRects();          
             UpdateCompletedCount();
-            setInterval(UpdateAgainstServer, 3000);
+           
+
+
         }
     });
 }
@@ -242,10 +266,14 @@ function SetAsClicked(clickedArray) {
 
         if (clickedArray.includes("individualRectangle" + i.toString())) {
             $(".individualRectangle" + i.toString()).click();
+            clickedRectangles++;
         }
     };
 
     $(".RectanglesEndBlock").html(clickedRectangles + "/96");
+
+    $("#rectangles").fadeIn();
+    $("#rectangles_submenu").fadeIn();
 
 }
 
@@ -259,12 +287,18 @@ $("#datepicker").val(DateFormatted);
 
 
 $("#datepicker").change(function () {
-    GetFromServer();
+    $("#rectangles").css("display", "none");
+    $("#rectangles_submenu").css("display", "none");
+    setTimeout(function () { GetFromServer(); }, 200);
+   
+    
 });
 
 
 $(function () {
-    $(document).tooltip();
+    $(document).tooltip({
+        position: { my: "left+10", at: "right" }
+    });
 });
 
 $("#resetprogress").click(function () {
@@ -278,5 +312,6 @@ $("#resetprogress").click(function () {
 
 
 
-
+setInterval(UpdateAgainstServer, 2000);
 GetFromServer();
+
