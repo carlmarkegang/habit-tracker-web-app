@@ -109,6 +109,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\images\Screenshot.png" />
     <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\Site.css" />
     <Content Include="CreateUser.aspx" />

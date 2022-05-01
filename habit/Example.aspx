@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Habits" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Example.aspx.cs" Inherits="habit.Example" %>
+﻿<%@ Page Title="Example" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Example.aspx.cs" Inherits="habit.Example" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
 

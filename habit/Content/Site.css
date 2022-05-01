@@ -18,6 +18,10 @@ h1 {
     float: left;
 }
 
+hr {
+    border-top: 1px solid #000000;
+}
+
 #rectangles_description_wrap {
     width: 30%;
     float: left;
