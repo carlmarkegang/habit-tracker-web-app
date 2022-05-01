@@ -15,7 +15,7 @@
 
         <div style="width: 50%; float: right; display: inline-block;">
             <h1>Quit you bad habits today!</h1>
-            <p>The first days are hardest when you are breaking you bad habits.</p>
+            <p>The first days are the most difficult when you are breaking you bad habits.</p>
 
             <p>Use this calender to get you motivated to get started!</p>
             <img src="/Content/Images/Screenshot.png" style="width: 350px;" alt="Example of what the website looks like logged in" title="Example of what the website looks like logged in">

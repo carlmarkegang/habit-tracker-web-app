@@ -4,11 +4,17 @@
 
 
     <div>
-        <h1>Create User</h1>
+        <h3>Get started today!</h3>
         <h2 runat="server" id="error" style="color: red;"></h2>
         <input type="text" name="username" placeholder="Username" /><br />
         <input type="password" name="password" placeholder="Password" /><br />
-        <input type="submit" value="Login" />
+        <input type="submit" value="Create user" class="btn btn-primary" />
+
+        <br /><br />
+        <p>
+            <a href="/">Back to Login</a>
+        </p>
+
     </div>
 
 </asp:Content>
