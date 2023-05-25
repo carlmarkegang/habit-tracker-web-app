@@ -7,5 +7,5 @@ The web app is built in C# and uses JavaScript and Jquery and uses xml-files to 
 
 
 # How it looks
-![Example image]([/image/sample.png](/Content/images/Screenshot.png) "Example")
+![Example](/habit/Content/images/Screenshot.png "This is a sample image.")
 
