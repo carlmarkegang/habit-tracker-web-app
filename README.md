@@ -7,5 +7,5 @@ The web app is built in C# and uses JavaScript and Jquery and uses xml-files to 
 
 
 # How it looks
-![Example image]([/image/sample.png](https://raw.githubusercontent.com/carlmarkegang/habits/main/habit/Content/images/Screenshot.png) "Example")
+![Example image]([/image/sample.png](/Content/images/Screenshot.png) "Example")
 
