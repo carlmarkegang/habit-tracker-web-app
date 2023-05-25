@@ -2,8 +2,8 @@
 
 A web application i created for fun.
 
-# Tech
-The web app is built in C# and uses JavaScript and Jquery and uses xml-files to keep track of users etc instead of using a database that would be a more conventional way.
+# Tech Stack
+The web app is built using C#, JavaScript, and jQuery. Instead of hosting a database for the web app i decided to use XML files to store and manage users and user data.
 
 
 # How it looks
